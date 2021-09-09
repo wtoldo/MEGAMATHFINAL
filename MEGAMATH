@@ -1,0 +1,756 @@
+//VARIÁVEIS----------------------------------------------------------
+{
+//VARIAVEIS DE IMAGEM------------------------------------------------
+  let telamenu;
+  let telainfo;
+  let telacred;
+  let telaconstrução;
+  let boneco;
+  let bomba;
+  var disparo = false;
+  
+//VARIAVEIS DE TELA E BOTÕES-----------------------------------------
+  var tela = 0;
+  var altu = 700
+  var larg = 1200
+  var xbot;
+  var ybotiniciar;
+  var ybotinfo;
+  var ybotcred;
+  var alturabot;
+  var largurabot;
+  
+//VARIAVEIS DE MOVIMENTO E POSIÇÃO-----------------------------------
+  var pxb = 0
+  var pyb = 300
+  var vb = 5
+  var xt,yt
+  var vt = 20
+  var xbo1 = 1800, ybo1 = 230
+  var xbo2 = 1800, ybo2 = 460
+  var xbo3 = 1700, ybo3 = 600 
+  
+  
+  
+//VARIAVEIS DE LVL---------------------------------------------------
+  var lvl = 0
+  var inicio = false
+  var end = 10
+  
+  
+}
+
+//FUNCTION PRELOAD---------------------------------------------------
+
+function preload() {
+  telamenu = loadImage('tela menu.png');
+  telainfo = loadImage('tela info.png');
+  telacred = loadImage('tela cred.png');
+  telainiciar = loadImage('tela iniciar.png');
+  boneco = loadImage('boneco.png');
+  bomba = loadImage('bomba.png');
+  tiro = loadImage('tiro.png')
+}
+
+//FUNCTION SETUP-----------------------------------------------------
+
+function setup() {
+  frameRate(60)
+  createCanvas(larg,altu);
+  xbot = 400;
+  ybotiniciar = 200;
+  ybotinfo = 350;
+  ybotcred = 500
+  alturabot = 100;
+  largurabot = 400;
+}
+
+//FUNCTION DRAW------------------------------------------------------
+
+function draw() {
+  background(telamenu);
+  textSize(72);
+  
+  
+//DETECTA BOTÕES DO MENU---------------------------------------------
+
+if(tela == 0){
+  
+  
+//DETECTA BOTÃO INICIAR----------------------------------------------  
+  
+  if(mouseX > xbot && mouseX < xbot+400 && mouseY > ybotiniciar && mouseY < ybotiniciar + alturabot){
+    if(mouseIsPressed){
+      tela = 1
+      lvl = 1
+    }
+    fill(255,0,0);
+  }
+  
+  rect(xbot,ybotiniciar,largurabot,alturabot);
+  fill(0);
+  text("iniciar",xbot+110,275);
+  fill(255,204,0);
+  
+  
+  
+//DETECTA BOTÃO INFORMAÇÕES-----------------------------------------  
+  if(mouseX > xbot && mouseX < xbot+400 && mouseY > ybotinfo && mouseY < ybotinfo + alturabot){
+    if(mouseIsPressed){
+      tela = 2
+    }
+    fill(255,0,0);
+  }
+  
+  rect(xbot,ybotinfo,largurabot,alturabot);
+  fill(0)
+  text("informações", xbot+5,420);
+  fill(255,204,0)  
+  
+  
+//DETECTA BOTÃO CRÉDITOS--------------------------------------------  
+  if(mouseX > xbot && mouseX < xbot+400 && mouseY > ybotcred && mouseY < ybotcred + alturabot){
+    if(mouseIsPressed){
+      tela = 3
+    }
+    fill(255,0,0);
+  }
+  
+  rect(xbot,ybotcred,largurabot,alturabot);
+  fill(0)
+  text("créditos", xbot+70 ,575);
+  fill(255,204,0)
+}
+  
+//TELA INICIAR-------------------------------------------------------
+  
+if(tela==1){
+  background(telainiciar)
+
+//LEVEIS--------------------------------------------------------------
+
+//SELECIONAR LV MANUAL------------------------------------------------
+  
+      if(keyIsDown(76) && keyIsDown(86)){
+        lvl = parseInt(prompt("Selecione o nível"))
+      }  
+  
+
+//LEVEL 1-------------------------------------------------------------
+  if(lvl == 1){
+    fill("yellow")
+    textSize(42)
+    textStyle(NORMAL)
+    text('Resolva: 1+1', 470, 60)
+    
+    
+    image(bomba, xbo1, ybo1, 80, 80)
+    xbo1 -= 2
+    xbo2 -= 2
+    
+    
+    image(bomba, xbo2, ybo2, 80, 80)
+    
+    fill("yellow")
+    textStyle(NORMAL)
+    text("4", xbo1 + 10, ybo1 + 60)
+    textStyle(NORMAL)
+    text("2", xbo2 + 10, ybo2 + 60)  
+    
+  }  
+  
+    
+//COLISÃO LV 1--------------------------------------------------------
+  if(lvl == 1 && yt <= ybo2 + 40 && yt > ybo2 - 40 && xt <= xbo2 + 40 && xt > xbo2){
+    lvl = 2
+    disparo = false
+    xt = 9000
+    xbo1 = 1400
+    xbo2 = 1400
+    ybo1 = random(100,600)
+    ybo2 = random(100,600)
+  }
+  
+  if(lvl == 1 && yt <= ybo1 + 40 && yt > ybo1 - 40 && xt <= xbo1 + 40 && xt > xbo1){
+    lvl = -1
+    disparo = false
+    xt = 9000
+    
+  }
+  
+  
+//LEVEL 2 -----------------------------------------------------------
+  
+  if(lvl == 2){
+    fill("yellow")
+    textSize(42)
+    textStyle(NORMAL)
+    text('Resolva: 5+7 ',470,60)
+    
+    
+    image(bomba, xbo1, ybo1, 80, 80)
+    xbo1 -= 2
+    xbo2 -= 2
+    
+    
+    image(bomba, xbo2, ybo2, 80, 80)
+    
+    fill("yellow")
+    textStyle(NORMAL)
+    text("15", xbo1 + 10, ybo1 + 60)
+    textStyle(NORMAL)
+    text("12", xbo2 + 10, ybo2 + 60)
+    
+  }
+  
+//COLISÃO LV 2-------------------------------------------------------
+
+  if(lvl == 2 && yt <= ybo2 + 40 && yt > ybo2 - 40 && xt <= xbo2 + 40 && xt > xbo2){
+    lvl = 3
+    disparo = false
+    xt = 9000
+    xbo1 = 1400
+    xbo2 = 1400
+    ybo1 = random(100,600)
+    ybo2 = random(100,600)
+  }
+  
+  if(lvl == 2 && yt <= ybo1 + 40 && yt > ybo1 - 40 && xt <= xbo1 + 40 && xt > xbo1){
+    lvl = -1
+    disparo = false
+    xt = 9000
+    
+  }
+  
+//LEVEL 3 -----------------------------------------------------------
+  
+  if(lvl == 3){
+    fill("yellow")
+    textSize(42)
+    textStyle(NORMAL)
+    text('Resolva: 13+8 ',470,60)
+    
+    
+    image(bomba, xbo1, ybo1, 80, 80)
+    xbo1 -= 2
+    xbo2 -= 2
+    
+    
+    image(bomba, xbo2, ybo2, 80, 80)
+    
+    fill("yellow")
+    textStyle(NORMAL)
+    text("19", xbo1 + 10, ybo1 + 60)
+    textStyle(NORMAL)
+    text("21", xbo2 + 10, ybo2 + 60)
+    
+  }
+  
+//COLISÃO LV 3-------------------------------------------------------
+
+  if(lvl == 3 && yt <= ybo2 + 40 && yt > ybo2 - 40 && xt <= xbo2 + 40 && xt > xbo2){
+    lvl = 4
+    disparo = false
+    xt = 9000
+    xbo1 = 1400
+    xbo2 = 1400
+    ybo1 = random(100,600)
+    ybo2 = random(100,600)
+  }
+  
+  if(lvl == 3 && yt <= ybo1 + 40 && yt > ybo1 - 40 && xt <= xbo1 + 40 && xt > xbo1){
+    lvl = -1
+    disparo = false
+    xt = 9000
+    
+  }  
+  
+  
+//LEVEL 4------------------------------------------------------------
+
+  if(lvl == 4){
+    fill("yellow")
+    textSize(42)
+    textStyle(NORMAL)
+    text('Resolva: 27+14',470,60)
+    
+    
+    image(bomba, xbo1, ybo1, 80, 80)
+    xbo1 -= 2
+    xbo2 -= 2
+    
+    
+    image(bomba, xbo2, ybo2, 80, 80)
+    
+    fill("yellow")
+    textStyle(NORMAL)
+    text("39", xbo1 + 10, ybo1 + 60)
+    textStyle(NORMAL)
+    text("41", xbo2 + 10, ybo2 + 60)
+    
+  }
+  
+//COLISÃO LV 4-------------------------------------------------------
+
+  if(lvl == 4 && yt <= ybo2 + 40 && yt > ybo2 - 40 && xt <= xbo2 + 40 && xt > xbo2){
+    lvl = 5
+    disparo = false
+    xt = 9000
+    xbo1 = 1400
+    xbo2 = 1400
+    ybo1 = random(100,600)
+    ybo2 = random(100,600)
+  }
+  
+  if(lvl == 4 && yt <= ybo1 + 40 && yt > ybo1 - 40 && xt <= xbo1 + 40 && xt > xbo1){
+    lvl = -1
+    disparo = false
+    xt = 9000
+    
+  }   
+  
+
+//LEVEL 5------------------------------------------------------------
+ 
+  if(lvl == 5){
+    fill("yellow")
+    textSize(42)
+    textStyle(NORMAL)
+    text('Resolva: 3x3',470,60)
+    
+    
+    
+    image(bomba, xbo1, ybo1, 80, 80)
+    image(bomba, xbo2, ybo2, 80, 80)
+    image(bomba, xbo3, ybo3, 80, 80)
+    xbo1 -= 2
+    xbo2 -= 2
+    xbo3 -= 2
+    
+    
+    
+    fill("yellow")
+    textStyle(NORMAL)
+    text("8", xbo1 + 10, ybo1 + 60)
+    textStyle(NORMAL)
+    text("9", xbo2 + 10, ybo2 + 60)
+    textStyle(NORMAL)
+    text("6", xbo3 + 10, ybo3 + 60)
+    
+  }
+  
+//COLISÃO LV 5-------------------------------------------------------  
+  
+  if(lvl == 5 && yt <= ybo1 + 40 && yt > ybo1 - 40 && xt <= xbo1 + 40 && xt > xbo1){
+    lvl = -1
+    disparo = false
+    xt = 9000
+    xbo1 = 1400
+    xbo2 = 1400
+    xbo3 = 1400
+    ybo1 = random(100,200)
+    ybo2 = random(300,400)
+    ybo3 = random(500,600)
+    
+  }
+  
+  if(lvl == 5 && yt <= ybo2 + 40 && yt > ybo2 - 40 && xt <= xbo2 + 40 && xt > xbo2){
+    lvl = 6
+    disparo = false
+    xt = 9000
+    xbo1 = 1400
+    xbo2 = 1400
+    xbo3 = 1400
+    ybo1 = random(100,200)
+    ybo2 = random(300,400)
+    ybo3 = random(500,600)
+    
+  }
+  
+  if(lvl == 5 && yt <= ybo3 + 40 && yt > ybo3 - 40 && xt <= xbo3 + 40 && xt > xbo3){
+    lvl = -1
+    disparo = false
+    xt = 9000
+    xbo1 = 1400
+    xbo2 = 1400
+    xbo3 = 1400
+    ybo1 = random(100,200)
+    ybo2 = random(300,400)
+    ybo3 = random(500,600)
+    
+  }
+  
+  
+//LEVEL 6------------------------------------------------------------ 
+  
+  if(lvl == 6){
+    fill("yellow")
+    textSize(42)
+    textStyle(NORMAL)
+    text('Resolva: 4x7',470,60)
+    
+    
+    
+    image(bomba, xbo1, ybo1, 80, 80)
+    image(bomba, xbo2, ybo2, 80, 80)
+    image(bomba, xbo3, ybo3, 80, 80)
+    xbo1 -= 2
+    xbo2 -= 2
+    xbo3 -= 2
+    
+    
+    
+    fill("yellow")
+    textStyle(NORMAL)
+    text("32", xbo1 + 10, ybo1 + 60)
+    textStyle(NORMAL)
+    text("24", xbo2 + 10, ybo2 + 60)
+    textStyle(NORMAL)
+    text("28", xbo3 + 10, ybo3 + 60)
+    
+  }
+  
+//COLISÃO LV 6-------------------------------------------------------  
+  
+  if(lvl == 6 && yt <= ybo1 + 40 && yt > ybo1 - 40 && xt <= xbo1 + 40 && xt > xbo1){
+    lvl = -1
+    disparo = false
+    xt = 9000
+    xbo1 = 1400
+    xbo2 = 1400
+    xbo3 = 1400
+    ybo1 = random(100,200)
+    ybo2 = random(300,400)
+    ybo3 = random(500,600)
+    
+  }
+  
+  if(lvl == 6 && yt <= ybo2 + 40 && yt > ybo2 - 40 && xt <= xbo2 + 40 && xt > xbo2){
+    lvl = -1
+    disparo = false
+    xt = 9000
+    xbo1 = 1400
+    xbo2 = 1400
+    xbo3 = 1400
+    ybo1 = random(100,200)
+    ybo2 = random(300,400)
+    ybo3 = random(500,600)
+    
+  }
+  
+  if(lvl == 6 && yt <= ybo3 + 40 && yt > ybo3 - 40 && xt <= xbo3 + 40 && xt > xbo3){
+    lvl = 7
+    disparo = false
+    xt = 9000
+    xbo1 = 1400
+    xbo2 = 1400
+    xbo3 = 1400
+    ybo1 = random(100,200)
+    ybo2 = random(300,400)
+    ybo3 = random(500,600)
+    
+  }
+  
+  
+//LEVEL 7------------------------------------------------------------ 
+  
+  if(lvl == 7){
+    fill("yellow")
+    textSize(42)
+    textStyle(NORMAL)
+    text('Resolva: 7x9',470,60)
+    
+    
+    
+    image(bomba, xbo1, ybo1, 80, 80)
+    image(bomba, xbo2, ybo2, 80, 80)
+    image(bomba, xbo3, ybo3, 80, 80)
+    xbo1 -= 3
+    xbo2 -= 3
+    xbo3 -= 3
+    
+    
+    
+    fill("yellow")
+    textStyle(NORMAL)
+    text("63", xbo1 + 10, ybo1 + 60)
+    textStyle(NORMAL)
+    text("54", xbo2 + 10, ybo2 + 60)
+    textStyle(NORMAL)
+    text("56", xbo3 + 10, ybo3 + 60)
+    
+  }
+  
+//COLISÃO LV 7-------------------------------------------------------  
+  
+  if(lvl == 7 && yt <= ybo1 + 40 && yt > ybo1 - 40 && xt <= xbo1 + 40 && xt > xbo1){
+    lvl = 8
+    disparo = false
+    xt = 9000
+    xbo1 = 1400
+    xbo2 = 1400
+    xbo3 = 1400
+    ybo1 = random(100,200)
+    ybo2 = random(300,400)
+    ybo3 = random(500,600)
+    
+  }
+  
+  if(lvl == 7 && yt <= ybo2 + 40 && yt > ybo2 - 40 && xt <= xbo2 + 40 && xt > xbo2){
+    lvl = -1
+    disparo = false
+    xt = 9000
+    xbo1 = 1400
+    xbo2 = 1400
+    xbo3 = 1400
+    ybo1 = random(100,200)
+    ybo2 = random(300,400)
+    ybo3 = random(500,600)
+    
+  }
+  
+  if(lvl == 7 && yt <= ybo3 + 40 && yt > ybo3 - 40 && xt <= xbo3 + 40 && xt > xbo3){
+    lvl = -1
+    disparo = false
+    xt = 9000
+    xbo1 = 1400
+    xbo2 = 1400
+    xbo3 = 1400
+    ybo1 = random(100,200)
+    ybo2 = random(300,400)
+    ybo3 = random(500,600)
+    
+  }
+  
+  
+//LEVEL 8------------------------------------------------------------
+
+  if(lvl == 8){
+    fill("yellow")
+    textSize(42)
+    textStyle(NORMAL)
+    text('Resolva: 16x6',470,60)
+    
+    
+    
+    image(bomba, xbo1, ybo1, 80, 80)
+    image(bomba, xbo2, ybo2, 80, 80)
+    image(bomba, xbo3, ybo3, 80, 80)
+    xbo1 -= 3
+    xbo2 -= 3
+    xbo3 -= 3
+    
+    
+    
+    fill("yellow")
+    textStyle(NORMAL)
+    text("90", xbo1 + 10, ybo1 + 60)
+    textStyle(NORMAL)
+    text("96", xbo2 + 10, ybo2 + 60)
+    textStyle(NORMAL)
+    text("98", xbo3 + 10, ybo3 + 60)
+    
+  }
+  
+//COLISÃO LV 8-------------------------------------------------------  
+  
+  if(lvl == 8 && yt <= ybo1 + 40 && yt > ybo1 - 40 && xt <= xbo1 + 40 && xt > xbo1){
+    lvl = -1
+    disparo = false
+    xt = 9000
+    xbo1 = 1400
+    xbo2 = 1400
+    xbo3 = 1400
+    ybo1 = random(100,200)
+    ybo2 = random(300,400)
+    ybo3 = random(500,600)
+    
+  }
+  
+  if(lvl == 8 && yt <= ybo2 + 40 && yt > ybo2 - 40 && xt <= xbo2 + 40 && xt > xbo2){
+    lvl = end
+    disparo = false
+    xt = 9000
+    xbo1 = 1400
+    xbo2 = 1400
+    xbo3 = 1400
+    ybo1 = random(100,200)
+    ybo2 = random(300,400)
+    ybo3 = random(500,600)
+    
+  }
+  
+  if(lvl == 8 && yt <= ybo3 + 40 && yt > ybo3 - 40 && xt <= xbo3 + 40 && xt > xbo3){
+    lvl = -1
+    disparo = false
+    xt = 9000
+    xbo1 = 1400
+    xbo2 = 1400
+    xbo3 = 1400
+    ybo1 = random(100,200)
+    ybo2 = random(300,400)
+    ybo3 = random(500,600)
+    
+  }  
+  
+  
+  if(xbo1 < 0){
+    lvl = -1
+  }
+  
+//FIM DOS NIVEIS-----------------------------------------------------  
+
+  
+  
+//AÇÕES DO BONECO----------------------------------------------------  
+  //D
+  if (keyIsDown(68) || keyIsDown(39)) {
+    pxb += vb
+  }
+  //A
+  if (keyIsDown(65) || keyIsDown(37)) {
+    pxb -= vb
+  }
+  //S
+  if (keyIsDown(83) || keyIsDown(40)) {
+    pyb += vb
+  }
+  //W
+  if (keyIsDown(87) || keyIsDown(38)) {
+    pyb -= vb
+  }
+
+  if (pyb >= altu - 100) {
+    pyb = altu - 100
+  }
+  if (pyb <= 0) {
+    pyb = 0
+  }
+  if (pxb <= 0) {
+    pxb = 0
+  }
+  if (pxb >= larg - 100) {
+    pxb = larg - 100
+  }
+
+  
+//BONECO--------------------------------------------------------------  
+  image(boneco,pxb,pyb,100,100)  
+  
+  
+  
+//ESPAÇO--------------------------------------------------------------
+
+  if (keyIsDown(32) && disparo == false){
+    disparo = true
+    xt = pxb
+    yt = pyb
+    
+  }
+  if (disparo){
+    image(tiro, xt +90, yt +37, 40, 26)
+    xt += vt
+  }
+  if(xt > 1200){
+    disparo = false
+    xt = 9000
+  }
+  
+ 
+  
+  
+//NÍVEL NO END OU GAME OVER------------------------------------------
+  
+  
+  if(lvl == -1){
+    fill('yellow')
+    textStyle(NORMAL)
+    text("VOCÊ PERDEU",340,350)
+  }
+  
+  if(lvl == -1 || lvl == end){
+    
+  }else if(lvl >= 1){
+    fill('yellow')
+    textStyle(NORMAL)
+    text("Nível: "+ lvl,1000,60)
+  }  
+
+  
+//BOTÃO VOLTAR NO GAME OVER E END------------------------------------
+  
+if(lvl == -1 || lvl == end){
+
+  
+if(mouseX > 890 && mouseX < 890 + 300 && mouseY > 600 && mouseY < 600 + 90){
+  if(mouseIsPressed){
+    tela = 0
+    lvl = 1
+  }
+  fill(255,0,0)
+}
+  
+  rect(890,600,300,90)
+  fill(0)
+  text("voltar",950,670)
+  fill (255,204,0)  
+}
+  
+//TELA DE VITÓRIA----------------------------------------------------  
+  
+  if(lvl == end){
+    
+    fill("yellow")
+    textStyle(NORMAL)
+    text("  Parabéns"+"\n"+"Você venceu",400,300)
+    
+  }
+  
+  
+  
+}  
+  
+//TELA INFORMAÇÕES---------------------------------------------------
+
+if(tela == 2){
+  background(telainfo)
+  
+  
+  
+//BOTÃO VOLTAR-------------------------------------------------------
+if(mouseX > 890 && mouseX < 890 + 300 && mouseY > 600 && mouseY < 600 + 90){
+  if(mouseIsPressed){
+    tela = 0
+  }
+  fill(255,0,0)
+}
+  
+  rect(890,600,300,90)
+  fill(0)
+  text("voltar",950,670)
+  fill (255,204,0)
+}
+    
+//TELA CRÉDITOS------------------------------------------------------ 
+if(tela == 3){
+  background(telacred)
+  
+  
+  
+//BOTÃO VOLTAR-------------------------------------------------------
+  
+if(mouseX > 890 && mouseX < 890 + 300 && mouseY > 600 && mouseY < 600 + 90){
+  if(mouseIsPressed){
+    tela = 0
+  }
+  fill(255,0,0)
+}
+  
+  rect(890,600,300,90)
+  fill(0)
+  text("voltar",950,670)
+  fill (255,204,0)
+}
+  
+
+}
